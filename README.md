@@ -12,5 +12,5 @@
 
 ### Run your tests
 ```
-3 - Testar os componentes (Vuetify)
+3 - Customizar e testar os componentes (Vuetify)
 ```

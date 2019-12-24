@@ -1,9 +1,11 @@
-export interface Disciplina {
+export interface User {
   id: number;
-  nome: String;
-  carga_horaria: number;
+  name: String;
+  email: String;
+  cpf: String;
+  age: number;
 }
 export interface SettingsState {
-  disciplinas: Disciplina[];
+  users: User[];
   error: boolean;
 }

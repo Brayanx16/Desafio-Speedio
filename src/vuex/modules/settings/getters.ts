@@ -1,8 +1,8 @@
-import { SettingsState, Disciplina } from "./types";
+import { SettingsState, User } from "./types";
 
 export default {
-  disciplinas(state: SettingsState): Disciplina[] {
-    return state.disciplinas;
+  users(state: SettingsState): User[] {
+    return state.users;
   },
   errorStatus(state: SettingsState): boolean {
     return state.error;

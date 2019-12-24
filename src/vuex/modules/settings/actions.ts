@@ -1,14 +1,14 @@
 import axios from "../../../router/http";
 import { ActionContext } from "vuex";
-import { SettingsState, Disciplina } from "./types";
+import { SettingsState, User } from "./types";
 
 export default {
-  fetchDisciplinas(store: ActionContext<SettingsState, any>): void {
+  fetchUsers(store: ActionContext<SettingsState, any>): void {
     axios
       .get("/v2/disciplina/")
       .then(response => {
-        const disciplinas = response.data;
-        store.commit("setDisciplinas", disciplinas);
+        const users = response.data;
+        store.commit("setUsers", users);
       })
       .catch(error => {
         store.commit("settingError");
@@ -17,28 +17,9 @@ export default {
       });
   },
 
-  insertDisciplina(store: ActionContext<SettingsState, any>, disciplina: any) {
+  insertUser(store: ActionContext<SettingsState, any>, user: any) {
     axios
-      .post("/v2/disciplina/", disciplina.disciplina)
-      .then(response => {
-        delete response.data.updatedAt;
-        delete response.data.createdAt;
-        const { disciplinas } = disciplina;
-        disciplinas.push(response.data);
-      })
-      .catch(error => {
-        store.commit("settingError");
-        // eslint-disable-next-line no-console
-        console.error(error);
-      });
-  },
-
-  updateDisciplina(
-    store: ActionContext<SettingsState, any>,
-    disciplina: Disciplina
-  ) {
-    axios
-      .put(`/v2/disciplina/${disciplina.id}`, disciplina)
+      .post("/v2/disciplina/", user)
       .then(() => {})
       .catch(error => {
         store.commit("settingError");
@@ -47,12 +28,26 @@ export default {
       });
   },
 
-  deleteDisciplina(
+  updateUser(
     store: ActionContext<SettingsState, any>,
-    disciplina: Disciplina
+    user: User
   ) {
     axios
-      .delete(`/v2/disciplina/deletar/${disciplina}`)
+      .put(`/v2/disciplina/${user.id}`, user)
+      .then(() => {})
+      .catch(error => {
+        store.commit("settingError");
+        // eslint-disable-next-line no-console
+        console.error(error);
+      });
+  },
+
+  deleteUser(
+    store: ActionContext<SettingsState, any>,
+    user: User
+  ) {
+    axios
+      .delete(`/v2/disciplina/deletar/${user}`)
       .then(() => {})
       .catch(error => {
         store.commit("settingError");

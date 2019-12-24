@@ -1,4 +1,4 @@
 export default {
-  disciplinas: [],
+  users: [],
   error: false
 };

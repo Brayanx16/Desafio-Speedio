@@ -1,68 +1,65 @@
 <template>
-  <v-app class="app">
-    <v-navigation-drawer v-model="drawer" app>
-      <v-list dense>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-contact-mail</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Contact</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-app-bar app color="indigo" dark>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>Application</v-toolbar-title>
-    </v-app-bar>
-
-    <v-content>
-      <v-container class="fill-height" fluid>
-        <v-row align="center" justify="center">
-          <v-col class="text-center">
-            <v-tooltip left>
-              <template v-slot:activator="{ on }">
-                <v-btn :href="source" icon large target="_blank" v-on="on">
-                  <v-icon large>mdi-code-tags</v-icon>
-                </v-btn>
-              </template>
-              <span>Source</span>
-            </v-tooltip>
-
-            <v-tooltip right>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  icon
-                  large
-                  href="https://codepen.io/johnjleider/pen/zgxeLQ"
-                  target="_blank"
-                  v-on="on"
-                >
-                  <v-icon large>mdi-codepen</v-icon>
-                </v-btn>
-              </template>
-              <span>Codepen</span>
-            </v-tooltip>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-content>
-    <v-footer color="indigo" app>
-      <span class="white--text">&copy; 2019</span>
-    </v-footer>
-  </v-app>
+  <div class="app">
+    <v-app>
+      <v-navigation-drawer v-model="drawer" app>
+        <v-container pa-8>
+          <v-img
+            max-width="210"
+            src="https://www.speedio.com.br/wp-content/uploads/2018/05/speedio-logo1-1024x271.png"
+          />
+        </v-container>
+        <v-divider></v-divider>
+        <v-list dense>
+          <router-link style="text-decoration: none;" :to="{ name: 'Home' }">
+            <v-list-item link>
+              <v-list-item-action>
+                <v-icon>mdi-home</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Home</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </router-link>
+          <router-link
+            style="text-decoration: none;"
+            :to="{ name: 'Usuarios' }"
+          >
+            <v-list-item link>
+              <v-list-item-action>
+                <v-icon>mdi-contact-mail</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Usuários</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </router-link>
+        </v-list>
+        <template v-slot:append>
+          <div class="pa-2">
+            <v-btn text color="error" block>Sair</v-btn>
+          </div>
+        </template>
+      </v-navigation-drawer>
+      <v-app-bar app color="indigo" dark>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+        <v-toolbar-title>Speedio</v-toolbar-title>
+      </v-app-bar>
+      <div>
+        <router-view />
+      </div>
+      <v-footer color="indigo" app>
+        <span class="white--text">&copy; 2019</span>
+      </v-footer>
+    </v-app>
+  </div>
 </template>
 
 <script>
-export default {};
+export default {
+  name: "DefaultContainer",
+
+  data: () => ({
+    drawer: null
+  })
+};
 </script>

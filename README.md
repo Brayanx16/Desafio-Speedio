@@ -1,29 +1,16 @@
-# teste
-
-## Project setup
-```
-npm install
-```
+# Projeto com Vuex - Vue-Persist - Vuetify - Typescript
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+1 - Criar um layout com Sidebar e Conteúdo principal adaptativo
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+2 - Trabalhar com rotas para alteração dos components, usando Guards
 ```
 
 ### Run your tests
 ```
-npm run test
+3 - Testar os componentes (Vuetify)
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

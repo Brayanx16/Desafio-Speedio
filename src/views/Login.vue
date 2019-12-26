@@ -12,38 +12,76 @@
                 <v-card-text>
                   <v-form>
                     <v-text-field
+                      v-model="user.email"
                       outlined
-                      label="Username"
+                      label="E-mail"
                       :autofocus="true"
-                      :counter="25"
-                      name="login"
+                      :counter="150"
+                      name="email"
                       type="text"
                     />
                     <v-text-field
+                      v-model="user.password"
                       outlined
                       id="password"
-                      label="Password"
+                      label="Senha"
                       :counter="25"
                       name="password"
                       type="password"
                     />
+                    <div class="text-center">
+                      <v-btn
+                        type="submit"
+                        @click.prevent="accessLogin"
+                        color="primary"
+                        >Acessar</v-btn
+                      >
+                    </div>
                   </v-form>
-                  <v-spacer />
-                  <div class="text-center">
-                    <v-btn color="primary">Login</v-btn>
-                  </div>
                 </v-card-text>
               </v-card>
             </v-col>
           </v-row>
+          <v-snackbar
+            v-model="snackbar"
+            color="error"
+            :top="true"
+            :right="true"
+            :multi-line="true"
+            :timeout="3000"
+          >
+            Impossível fazer login com as credenciais fornecidas
+          </v-snackbar>
         </v-container>
       </v-content>
     </v-app>
   </div>
 </template>
 
-<script>
-export default {
-  name: "Login"
-};
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { State, Action, Getter } from "vuex-class";
+import { User } from "@/vuex/modules/settings/types";
+
+const namespace: string = "settings";
+
+@Component
+export default class Login extends Vue {
+  public user = { email: "", password: "" };
+  public snackbar = false;
+
+  @Action("login", { namespace }) login: any;
+
+  accessLogin() {
+    this.login(this.user)
+      .then(() => {
+        this.$router.push("/admin");
+      })
+      .catch((error: any) => {
+        this.snackbar = true;
+        // eslint-disable-next-line no-console
+        console.log(error);
+      });
+  }
+}
 </script>

@@ -5,6 +5,22 @@ export default {
     state.users = data;
     state.error = false;
   },
+  setLoginUser(state: SettingsState, data: User) {
+    state.loginUser = data;
+    state.error = false;
+  },
+  setLogoutUser(state: SettingsState) {
+    // eslint-disable-next-line no-console
+    console.log("ENTROU");
+    state.loginUser = {
+      id: 0,
+      name: "",
+      email: "",
+      password: "",
+      cpf: "",
+      age: 0
+    };
+  },
   settingError(state: SettingsState) {
     state.error = true;
   }

@@ -36,7 +36,7 @@
         </v-list>
         <template v-slot:append>
           <div class="pa-2">
-            <v-btn text color="error" block>Sair</v-btn>
+            <v-btn @click.prevent="logoutUser" text color="error" block>Sair</v-btn>
           </div>
         </template>
       </v-navigation-drawer>
@@ -54,12 +54,20 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "DefaultContainer",
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { State, Action, Getter } from "vuex-class";
+const namespace: string = "settings";
 
-  data: () => ({
-    drawer: null
-  })
-};
+@Component
+export default class DefaultContainer extends Vue {
+  public drawer = null;
+
+  @Action("logout", { namespace }) logout: any;
+
+  logoutUser() {
+    this.logout();
+    this.$router.push("/");
+  }
+}
 </script>

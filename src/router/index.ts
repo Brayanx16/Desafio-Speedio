@@ -25,12 +25,30 @@ export default new Router({
         {
           path: "usuarios",
           name: "Usuarios",
-          component: () => import("@/components/ListUsers.vue")
+          component: () => import("@/components/ListUsers.vue"),
+          beforeEnter: (to, from, next) => {
+            const {settings: data} = JSON.parse(localStorage.vuex || "{}");
+            const {loginUser: user} = data;
+            if (user.auth === true && user.token) {
+              next()
+            } else {
+              next(false)
+            }
+          }
         },
         {
           path: "usuario/cadastro",
           name: "Usuario",
-          component: () => import("@/components/InsertUser.vue")
+          component: () => import("@/components/InsertUser.vue"),
+          beforeEnter: (to, from, next) => {
+            const {settings: data} = JSON.parse(localStorage.vuex || "{}");
+            const {loginUser: user} = data;
+            if (user.auth === true && user.token) {
+              next()
+            } else {
+              next(false)
+            }
+          }
         },
         {
           path: "usuario/editar/:id",

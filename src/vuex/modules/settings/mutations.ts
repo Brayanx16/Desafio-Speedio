@@ -10,8 +10,6 @@ export default {
     state.error = false;
   },
   setLogoutUser(state: SettingsState) {
-    // eslint-disable-next-line no-console
-    console.log("ENTROU");
     state.loginUser = {
       id: 0,
       name: "",

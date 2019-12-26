@@ -36,7 +36,9 @@
         </v-list>
         <template v-slot:append>
           <div class="pa-2">
-            <v-btn @click.prevent="logoutUser" text color="error" block>Sair</v-btn>
+            <v-btn @click.prevent="logoutUser" text color="error" block
+              >Sair</v-btn
+            >
           </div>
         </template>
       </v-navigation-drawer>

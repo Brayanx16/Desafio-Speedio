@@ -12,27 +12,42 @@ export default new Router({
       component: () => import("@/views/Login.vue")
     },
     {
+      path: "/page/403",
+      name: "403",
+      component: () => import("@/views/Page403.vue")        
+    },
+    {
       path: "/admin",
       redirect: "/admin/home",
+      name: "DefaultContainer",
       component: () => import("@/containers/DefaultContainer.vue"),
       children: [
         /* Rotas Usuário */
         {
           path: "home",
           name: "Home",
-          component: () => import("@/components/Home.vue")
+          component: () => import("@/components/Home.vue"),
+          beforeEnter: (to, from, next) => {
+            const { settings: data } = JSON.parse(localStorage.vuex || "{}");
+            const { loginUser: user } = data;
+            if (user.auth === true && user.token) {
+              next();
+            } else {
+              next({ path: '/page/403' });
+            }
+          }
         },
         {
           path: "usuarios",
           name: "Usuarios",
           component: () => import("@/components/ListUsers.vue"),
           beforeEnter: (to, from, next) => {
-            const {settings: data} = JSON.parse(localStorage.vuex || "{}");
-            const {loginUser: user} = data;
+            const { settings: data } = JSON.parse(localStorage.vuex || "{}");
+            const { loginUser: user } = data;
             if (user.auth === true && user.token) {
-              next()
+              next();
             } else {
-              next(false)
+              next("/page/403");
             }
           }
         },
@@ -41,20 +56,29 @@ export default new Router({
           name: "Usuario",
           component: () => import("@/components/InsertUser.vue"),
           beforeEnter: (to, from, next) => {
-            const {settings: data} = JSON.parse(localStorage.vuex || "{}");
-            const {loginUser: user} = data;
+            const { settings: data } = JSON.parse(localStorage.vuex || "{}");
+            const { loginUser: user } = data;
             if (user.auth === true && user.token) {
-              next()
+              next();
             } else {
-              next(false)
+              next("/page/403");
             }
           }
         },
         {
           path: "usuario/editar/:id",
-          name: "Usuario",
-          component: () => import("@/components/InsertUser.vue")
-        }
+          name: "EditarUsuario",
+          component: () => import("@/components/InsertUser.vue"),
+          beforeEnter: (to, from, next) => {
+            const { settings: data } = JSON.parse(localStorage.vuex || "{}");
+            const { loginUser: user } = data;
+            if (user.auth === true && user.token) {
+              next();
+            } else {
+              next("/page/403");
+            }
+          }
+        },
       ]
     }
   ]

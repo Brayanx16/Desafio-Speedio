@@ -39,17 +39,30 @@
                 <td class="text-center">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
-                      <v-btn x-small class="mr-2" color="primary" v-on="on"
-                        ><v-icon :small="true"
-                          >mdi-pencil-outline</v-icon
-                        ></v-btn
+                      <router-link
+                        :to="{ name: 'Usuario', params: { id: user.id } }"
                       >
+                        <v-btn
+                          @click.prevent="fetchUser(user)"
+                          x-small
+                          class="mr-2"
+                          color="primary"
+                          v-on="on"
+                          ><v-icon :small="true"
+                            >mdi-pencil-outline</v-icon
+                          ></v-btn
+                        >
+                      </router-link>
                     </template>
                     <span>Editar</span>
                   </v-tooltip>
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
-                      <v-btn x-small color="error" v-on="on"
+                      <v-btn
+                        @click.prevent="openModalDelete(user)"
+                        x-small
+                        color="error"
+                        v-on="on"
                         ><v-icon :small="true">mdi-delete</v-icon></v-btn
                       >
                     </template>
@@ -61,6 +74,41 @@
           </template>
         </v-simple-table>
       </v-card>
+      <v-dialog v-model="dialog" persistent max-width="290">
+        <v-card>
+          <v-card-title class="headline">Confirmação</v-card-title>
+          <v-card-text>Deseja excluir o usuário?</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" small @click.prevent="eliminateUser"
+              >Confirmar</v-btn
+            >
+            <v-btn color="error" small @click.prevent="dialog = false"
+              >Cancelar</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-snackbar
+        v-model="snackbar"
+        color="success"
+        :top="true"
+        :multi-line="true"
+        :timeout="2000"
+      >
+        Usuário excluido com sucesso
+        <v-icon dark>mdi-checkbox-marked-circle-outline</v-icon>
+      </v-snackbar>
+      <v-snackbar
+        v-model="snackbarError"
+        color="error"
+        :top="true"
+        :multi-line="true"
+        :timeout="2000"
+      >
+        Erro inesperado, tente novamente mais tarde
+        <v-icon dark>mdi-checkbox-marked-circle-outline</v-icon>
+      </v-snackbar>
     </v-container>
   </v-content>
 </template>
@@ -74,10 +122,11 @@ const namespace: string = "settings";
 @Component
 export default class Listagem extends Vue {
   public dialog = false;
+  public snackbar = false;
+  public snackbarError = false;
   public user = { id: "", name: "", email: "", cpf: "", age: "" };
 
   @Action("fetchUsers", { namespace }) fetchUsers: any;
-  @Action("updateUser", { namespace }) updateUser: any;
   @Action("deleteUser", { namespace }) deleteUser: any;
   @Getter("users", { namespace }) users!: User[];
   @Getter("errorStatus", { namespace }) errors!: User[];
@@ -86,20 +135,26 @@ export default class Listagem extends Vue {
     this.fetchUsers();
   }
 
-  modalDelete(user: any) {
+  openModalDelete(user: any) {
     this.user = user;
     this.dialog = true;
   }
 
-  changeUser() {
-    this.updateUser(this.user);
-    this.dialog = false;
-  }
-
-  eliminateUser(user: any) {
-    let pos_user = this.users.indexOf(user);
-    this.users.splice(pos_user, 1);
-    this.deleteUser(user.id);
+  eliminateUser() {
+    const user: any = this.user;
+    this.deleteUser(user.id)
+      .then(() => {
+        let pos_user = this.users.indexOf(user);
+        this.users.splice(pos_user, 1);
+        this.snackbar = true;
+        this.dialog = false;
+      })
+      .catch((error: any) => {
+        this.snackbarError = true;
+        this.dialog = false;
+        // eslint-disable-next-line no-console
+        console.log(error);
+      });
   }
 }
 </script>

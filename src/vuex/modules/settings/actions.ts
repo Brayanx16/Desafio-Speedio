@@ -3,18 +3,19 @@ import { ActionContext } from "vuex";
 import { SettingsState, User } from "./types";
 
 export default {
-  fetchUsers(store: ActionContext<SettingsState, any>): void {
-    axios
-      .get("/api/v2/usuario/lista")
-      .then(response => {
-        const users = response.data;
-        store.commit("setUsers", users);
-      })
-      .catch(error => {
-        store.commit("settingError");
-        // eslint-disable-next-line no-console
-        console.error(error);
-      });
+  fetchUsers(store: ActionContext<SettingsState, any>){
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/api/v2/usuario/lista")
+        .then(response => {
+          const users = response.data;
+          store.commit("setUsers", users);
+          resolve();
+        }, (error) => {
+          store.commit("settingError");
+          reject(error)
+        })
+    });
   },
 
   insertUser(store: ActionContext<SettingsState, any>, user: any) {
@@ -32,25 +33,30 @@ export default {
   },
 
   updateUser(store: ActionContext<SettingsState, any>, user: User) {
-    axios
-      .put(`/api/v2/usuario/editar/${user.id}`, user)
-      .then(() => {})
-      .catch(error => {
-        store.commit("settingError");
-        // eslint-disable-next-line no-console
-        console.error(error);
-      });
+    return new Promise((resolve, reject) => {
+      axios
+        .put(`/api/v2/usuario/editar/${user.id}`, user)
+        .then(() => {
+          resolve();
+        }, (error) => {
+          store.commit("settingError");
+          reject(error)
+        })
+    })
   },
 
   deleteUser(store: ActionContext<SettingsState, any>, user: User) {
-    axios
-      .delete(`/v2/disciplina/deletar/${user}`)
-      .then(() => {})
-      .catch(error => {
-        store.commit("settingError");
-        // eslint-disable-next-line no-console
-        console.error(error);
-      });
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(`/api/v2/usuario/deletar/${user}`)
+        .then(() => {
+          resolve();
+        }, (error) => {
+          store.commit("settingError");
+          reject(error)
+        })
+        
+    })
   },
 
   login(store: ActionContext<SettingsState, any>, user: User) {
@@ -70,6 +76,6 @@ export default {
   },
 
   logout(store: ActionContext<SettingsState, any>): void {
-    store.commit('setLogoutUser');
+    store.commit("setLogoutUser");
   }
 };

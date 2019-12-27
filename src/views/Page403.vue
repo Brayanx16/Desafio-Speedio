@@ -11,9 +11,10 @@
               <h2>Você não tem autorização para acessar essa página !</h2>
             </v-col>
             <v-col class="text-center" cols="12">
-              <router-link :to="{ name: 'Login' }">
-                <c-btn text_button="Realizar Login Novamente" />
-              </router-link>
+              <c-btn
+                @click="redirectLogin"
+                text_button="Realizar Login Novamente"
+              />
             </v-col>
           </v-row>
         </v-container>
@@ -29,7 +30,11 @@ import { Prop, Emit } from "vue-property-decorator";
 import Button from "../shared/components/button.custom.vue";
 
 @Component({ components: { "c-btn": Button } })
-export default class Page403 extends Vue {}
+export default class Page403 extends Vue {
+  redirectLogin() {
+    this.$router.push("/");
+  }
+}
 </script>
 
 <style lang="css">

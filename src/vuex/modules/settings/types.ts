@@ -9,5 +9,6 @@ export interface User {
 export interface SettingsState {
   users: User[];
   loginUser: User;
+  user: User;
   error: boolean;
 }

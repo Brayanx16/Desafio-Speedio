@@ -39,20 +39,16 @@
                 <td class="text-center">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
-                      <router-link
-                        :to="{ name: 'Usuario', params: { id: user.id } }"
+                      <v-btn
+                        x-small
+                        @click.prevent="editUser(user)"
+                        class="mr-2"
+                        color="primary"
+                        v-on="on"
+                        ><v-icon :small="true"
+                          >mdi-pencil-outline</v-icon
+                        ></v-btn
                       >
-                        <v-btn
-                          @click.prevent="fetchUser(user)"
-                          x-small
-                          class="mr-2"
-                          color="primary"
-                          v-on="on"
-                          ><v-icon :small="true"
-                            >mdi-pencil-outline</v-icon
-                          ></v-btn
-                        >
-                      </router-link>
                     </template>
                     <span>Editar</span>
                   </v-tooltip>
@@ -115,7 +111,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { State, Action, Getter } from "vuex-class";
+import { State, Action, Getter, Mutation } from "vuex-class";
 import { User } from "@/vuex/modules/settings/types";
 const namespace: string = "settings";
 
@@ -127,6 +123,7 @@ export default class Listagem extends Vue {
   public user = { id: "", name: "", email: "", cpf: "", age: "" };
 
   @Action("fetchUsers", { namespace }) fetchUsers: any;
+  @Mutation("setUser", { namespace }) setUser: any;
   @Action("deleteUser", { namespace }) deleteUser: any;
   @Getter("users", { namespace }) users!: User[];
   @Getter("errorStatus", { namespace }) errors!: User[];
@@ -155,6 +152,11 @@ export default class Listagem extends Vue {
         // eslint-disable-next-line no-console
         console.log(error);
       });
+  }
+
+  editUser(user: User) {
+    this.setUser(user);
+    this.$router.push(`usuario/editar/${user.id}/`);
   }
 }
 </script>

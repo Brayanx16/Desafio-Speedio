@@ -60,7 +60,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { State, Action, Getter } from "vuex-class";
+import { State, Action, Getter, Mutation } from "vuex-class";
 import { User } from "@/vuex/modules/settings/types";
 
 const namespace: string = "settings";

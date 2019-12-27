@@ -55,7 +55,6 @@ export default {
           store.commit("settingError");
           reject(error)
         })
-        
     })
   },
 
@@ -73,9 +72,5 @@ export default {
         }
       );
     });
-  },
-
-  logout(store: ActionContext<SettingsState, any>): void {
-    store.commit("setLogoutUser");
   }
 };

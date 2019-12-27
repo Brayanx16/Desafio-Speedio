@@ -9,6 +9,10 @@ export default {
     state.loginUser = data;
     state.error = false;
   },
+  setUser(state: SettingsState, data: User) {
+    state.user = data;
+    state.error = false;
+  },
   setLogoutUser(state: SettingsState) {
     state.loginUser = {
       id: 0,

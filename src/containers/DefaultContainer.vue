@@ -36,9 +36,19 @@
         </v-list>
         <template v-slot:append>
           <div class="pa-2">
-            <v-btn @click.prevent="logoutUser" text color="error" block
-              >Sair</v-btn
-            >
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  @click.prevent="logoutUser"
+                  v-on="on"
+                  text
+                  color="error"
+                  block
+                  >Sair</v-btn
+                >
+              </template>
+              <span> Sair do Sistema </span>
+            </v-tooltip>
           </div>
         </template>
       </v-navigation-drawer>
@@ -58,14 +68,14 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { State, Action, Getter } from "vuex-class";
+import { State, Action, Getter, Mutation } from "vuex-class";
 const namespace: string = "settings";
 
 @Component
 export default class DefaultContainer extends Vue {
   public drawer = null;
 
-  @Action("logout", { namespace }) logout: any;
+  @Mutation("setLogoutUser", { namespace }) logout: any;
 
   logoutUser() {
     this.logout();

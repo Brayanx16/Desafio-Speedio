@@ -68,7 +68,7 @@ export default new Router({
         {
           path: "usuario/editar/:id",
           name: "EditarUsuario",
-          component: () => import("@/components/InsertUser.vue"),
+          component: () => import("@/components/EditUser.vue"),
           beforeEnter: (to, from, next) => {
             const { settings: data } = JSON.parse(localStorage.vuex || "{}");
             const { loginUser: user } = data;

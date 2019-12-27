@@ -20,10 +20,6 @@ describe("InsertUser.vue", () => {
     expect(wrapper.vm.user.age).toBe(0);
   });
 
-  // it("checking button submit", () => {
-  //   console.log(wrapper.vm.postUser())
-  // });
-
   it("is a Vue instance", () => {
     expect(wrapper.isVueInstance()).toBeTruthy();
   });

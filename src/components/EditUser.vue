@@ -2,11 +2,11 @@
   <v-content>
     <v-container fluid>
       <v-card class="mx-auto" tile raised>
-        <v-card-title class="headline">Cadastro de Usuário</v-card-title>
+        <v-card-title class="headline">Editar Informações</v-card-title>
         <v-form>
           <v-container fluid>
             <v-row>
-              <v-col cols="6">
+              <v-col lg="6" md="6" xl="6" cols="12">
                 <v-text-field
                   id="name"
                   v-model="user.name"
@@ -17,7 +17,7 @@
                   label="Nome Completo"
                 />
               </v-col>
-              <v-col cols="6">
+              <v-col lg="6" md="6" xl="6" cols="12">
                 <v-text-field
                   id="email"
                   v-model="user.email"
@@ -51,12 +51,14 @@
             </v-row>
             <v-row>
               <v-col class="text-right" cols="6">
-                <v-btn type="submit" @click.prevent="putUser" color="primary">
-                  Confirmar
-                </v-btn>
+                <c-btn @click="putUser" text_button="Atualizar" />
               </v-col>
               <v-col class="text-left" cols="6">
-                <v-btn @click.prevent="resetForm" color="error">Cancelar</v-btn>
+                <c-btn
+                  @click="resetForm"
+                  color="error"
+                  text_button="Cancelar"
+                />
               </v-col>
             </v-row>
           </v-container>
@@ -90,9 +92,10 @@
 import { Component, Vue } from "vue-property-decorator";
 import { State, Action, Getter } from "vuex-class";
 import { User } from "@/vuex/modules/settings/types";
+import Button from "../shared/components/button.custom.vue";
 const namespace: string = "settings";
 
-@Component
+@Component({ components: { "c-btn": Button } })
 export default class Insert extends Vue {
   public snackbar = false;
   public snackbarError = false;

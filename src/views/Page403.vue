@@ -12,7 +12,7 @@
             </v-col>
             <v-col class="text-center" cols="12">
               <router-link :to="{ name: 'Login' }">
-                <v-btn color="primary"> Realizar Login Novamente </v-btn>
+                <c-btn text_button="Realizar Login Novamente" />
               </router-link>
             </v-col>
           </v-row>
@@ -21,6 +21,16 @@
     </v-app>
   </div>
 </template>
+
+<script>
+import Vue from "vue";
+import Component from "vue-class-component";
+import { Prop, Emit } from "vue-property-decorator";
+import Button from "../shared/components/button.custom.vue";
+
+@Component({ components: { "c-btn": Button } })
+export default class Page403 extends Vue {}
+</script>
 
 <style lang="css">
 .style-background {

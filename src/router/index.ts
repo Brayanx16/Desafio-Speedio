@@ -14,7 +14,7 @@ export default new Router({
     {
       path: "/page/403",
       name: "403",
-      component: () => import("@/views/Page403.vue")        
+      component: () => import("@/views/Page403.vue")
     },
     {
       path: "/admin",
@@ -33,7 +33,7 @@ export default new Router({
             if (user.auth === true && user.token) {
               next();
             } else {
-              next({ path: '/page/403' });
+              next({ path: "/page/403" });
             }
           }
         },
@@ -78,7 +78,7 @@ export default new Router({
               next("/page/403");
             }
           }
-        },
+        }
       ]
     }
   ]

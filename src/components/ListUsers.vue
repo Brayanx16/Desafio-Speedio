@@ -4,71 +4,72 @@
       <v-card>
         <v-card-title class="headline">
           <v-row>
-            <v-col align-self="center" cols="6">
+            <v-col class="style-mobile-font" align-self="center" cols="6">
               Lista de Usuários
             </v-col>
             <v-col align-self="center" class="text-right" cols="6">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <router-link :to="{ name: 'Usuario' }">
-                    <v-btn color="primary" dark v-on="on">Cadastrar</v-btn>
-                  </router-link>
-                </template>
-                <span>Novo Usuário</span>
-              </v-tooltip>
+              <c-btn
+                type="button"
+                @click="insertRouter"
+                text_button="Cadastrar"
+              />
             </v-col>
           </v-row>
         </v-card-title>
-        <v-simple-table>
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">Nome Completo</th>
-                <th class="text-left">E-mail</th>
-                <th class="text-left">CPF</th>
-                <th class="text-center">Idade</th>
-                <th class="text-center">Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(user, index) in users" :key="index">
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.cpf }}</td>
-                <td class="text-center">{{ user.age }}</td>
-                <td class="text-center">
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-btn
-                        x-small
-                        @click.prevent="editUser(user)"
-                        class="mr-2"
-                        color="primary"
-                        v-on="on"
-                        ><v-icon :small="true"
-                          >mdi-pencil-outline</v-icon
-                        ></v-btn
-                      >
-                    </template>
-                    <span>Editar</span>
-                  </v-tooltip>
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-btn
-                        @click.prevent="openModalDelete(user)"
-                        x-small
-                        color="error"
-                        v-on="on"
-                        ><v-icon :small="true">mdi-delete</v-icon></v-btn
-                      >
-                    </template>
-                    <span>Deletar</span>
-                  </v-tooltip>
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
+        <v-container>
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">Nome Completo</th>
+                  <th v-show="width >= 500" class="text-left">E-mail</th>
+                  <th v-show="width >= 500" class="text-left">CPF</th>
+                  <th v-show="width >= 500" class="text-center">Idade</th>
+                  <th class="text-center">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(user, index) in users" :key="index">
+                  <td>{{ user.name }}</td>
+                  <td v-show="width >= 500">{{ user.email }}</td>
+                  <td v-show="width >= 500">{{ user.cpf }}</td>
+                  <td v-show="width >= 500" class="text-center">
+                    {{ user.age }}
+                  </td>
+                  <td class="text-center">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          x-small
+                          @click.prevent="editUser(user)"
+                          class="mr-2"
+                          color="primary"
+                          v-on="on"
+                          ><v-icon :small="true"
+                            >mdi-pencil-outline</v-icon
+                          ></v-btn
+                        >
+                      </template>
+                      <span>Editar</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          @click.prevent="openModalDelete(user)"
+                          x-small
+                          color="error"
+                          v-on="on"
+                          ><v-icon :small="true">mdi-delete</v-icon></v-btn
+                        >
+                      </template>
+                      <span>Deletar</span>
+                    </v-tooltip>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-container>
       </v-card>
       <v-dialog v-model="dialog" persistent max-width="290">
         <v-card>
@@ -113,14 +114,16 @@
 import { Component, Vue } from "vue-property-decorator";
 import { State, Action, Getter, Mutation } from "vuex-class";
 import { User } from "@/vuex/modules/settings/types";
+import Button from "../shared/components/button.custom.vue";
 const namespace: string = "settings";
 
-@Component
+@Component({ components: { "c-btn": Button } })
 export default class Listagem extends Vue {
   public dialog = false;
   public snackbar = false;
   public snackbarError = false;
   public user = { id: "", name: "", email: "", cpf: "", age: "" };
+  public width = screen.width;
 
   @Action("fetchUsers", { namespace }) fetchUsers: any;
   @Mutation("setUser", { namespace }) setUser: any;
@@ -158,5 +161,21 @@ export default class Listagem extends Vue {
     this.setUser(user);
     this.$router.push(`usuario/editar/${user.id}/`);
   }
+
+  insertRouter() {
+    this.$router.push(`usuario/cadastro`);
+  }
 }
 </script>
+
+<style lang="css" scoped>
+@media only screen and (max-width: 499px) {
+  .style-mobile-font {
+    font-size: 18px;
+  }
+
+  .style-mb-20 {
+    margin-bottom: 20px !important;
+  }
+}
+</style>

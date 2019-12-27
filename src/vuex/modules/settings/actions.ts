@@ -3,18 +3,19 @@ import { ActionContext } from "vuex";
 import { SettingsState, User } from "./types";
 
 export default {
-  fetchUsers(store: ActionContext<SettingsState, any>){
+  fetchUsers(store: ActionContext<SettingsState, any>) {
     return new Promise((resolve, reject) => {
-      axios
-        .get("/api/v2/usuario/lista")
-        .then(response => {
+      axios.get("/api/v2/usuario/lista").then(
+        response => {
           const users = response.data;
           store.commit("setUsers", users);
           resolve();
-        }, (error) => {
+        },
+        error => {
           store.commit("settingError");
-          reject(error)
-        })
+          reject(error);
+        }
+      );
     });
   },
 
@@ -34,28 +35,30 @@ export default {
 
   updateUser(store: ActionContext<SettingsState, any>, user: User) {
     return new Promise((resolve, reject) => {
-      axios
-        .put(`/api/v2/usuario/editar/${user.id}`, user)
-        .then(() => {
+      axios.put(`/api/v2/usuario/editar/${user.id}`, user).then(
+        () => {
           resolve();
-        }, (error) => {
+        },
+        error => {
           store.commit("settingError");
-          reject(error)
-        })
-    })
+          reject(error);
+        }
+      );
+    });
   },
 
   deleteUser(store: ActionContext<SettingsState, any>, user: User) {
     return new Promise((resolve, reject) => {
-      axios
-        .delete(`/api/v2/usuario/deletar/${user}`)
-        .then(() => {
+      axios.delete(`/api/v2/usuario/deletar/${user}`).then(
+        () => {
           resolve();
-        }, (error) => {
+        },
+        error => {
           store.commit("settingError");
-          reject(error)
-        })
-    })
+          reject(error);
+        }
+      );
+    });
   },
 
   login(store: ActionContext<SettingsState, any>, user: User) {

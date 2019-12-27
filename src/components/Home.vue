@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <v-container class="fill-height">
+    <v-container class="fill-height" fluid>
       <v-row class="text-center">
         <v-col cols="12">
           <h1>TESTE SPEEDIO</h1>

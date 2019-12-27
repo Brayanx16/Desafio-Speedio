@@ -21,7 +21,6 @@
                 <v-text-field
                   id="password"
                   v-model="user.password"
-                  :autofocus="true"
                   type="password"
                   :counter="25"
                   outlined
@@ -64,12 +63,14 @@
             </v-row>
             <v-row>
               <v-col class="text-right" cols="6">
-                <v-btn type="submit" @click.prevent="postUser" color="primary">
-                  Confirmar
-                </v-btn>
+                <c-btn @click="postUser" text_button="Confirmar" />
               </v-col>
               <v-col class="text-left" cols="6">
-                <v-btn @click.prevent="resetForm" color="error">Cancelar</v-btn>
+                <c-btn
+                  @click="resetForm"
+                  color="error"
+                  text_button="Cancelar"
+                />
               </v-col>
             </v-row>
           </v-container>
@@ -103,9 +104,10 @@
 import { Component, Vue } from "vue-property-decorator";
 import { State, Action, Getter } from "vuex-class";
 import { User } from "@/vuex/modules/settings/types";
+import Button from "../shared/components/button.custom.vue";
 const namespace: string = "settings";
 
-@Component
+@Component({ components: { "c-btn": Button } })
 export default class Insert extends Vue {
   public user: User = {
     id: 0,
